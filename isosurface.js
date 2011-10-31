@@ -183,6 +183,9 @@ function mapReduce() {
   });
 }
 
+
+
+
 //called once all workers information has been aggregated
 function render(data) {
   var vertices = data.vertices,
@@ -200,7 +203,7 @@ function render(data) {
       fn = formData.fn,
       isolevel = formData.isolevel;
   
-
+  
   //draw scene
   gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -211,10 +214,16 @@ function render(data) {
   if (formData.rotate) {
     rx += rdx;
     ry += rdy;
+    //rx = Rot.x;
+    //ry = Rot.y;
   }
 
-  elMatrix.multiply(THREE.Matrix4.rotationXMatrix(rx), THREE.Matrix4.rotationYMatrix(ry));
+ // elMatrix.multiplySelf(THREE.Matrix4.translationMatrix(Rot.x,Rot.y,Rot.z));
 
+  //elMatrix.multiplySelf(THREE.Matrix4.rotationXMatrix(rx))
+  //elMatrix.multiplySelf(THREE.Matrix4.rotationYMatrix(ry)) 
+  elMatrix.multiply(THREE.Matrix4.rotationXMatrix(rx), THREE.Matrix4.rotationYMatrix(ry));
+elMatrix.multiplySelf(THREE.Matrix4.translationMatrix(Trans.x,Trans.y,Trans.z));
   viewMatrix.multiply(camera.matrix, elMatrix);
   
   //send matrices
